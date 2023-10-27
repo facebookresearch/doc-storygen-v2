@@ -1,0 +1,10 @@
+{
+    "title": {
+        "instruction": "Write a title for a short story.",
+        "response_prefix": "Sure, here is a possible title:\n\nTitle:"
+    },
+    "premise": {
+        "instruction": "Write a premise for a short story.",
+        "response_prefix": "Title: {title}\n\nPremise:"
+    }
+}

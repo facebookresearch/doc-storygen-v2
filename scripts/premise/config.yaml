@@ -1,0 +1,25 @@
+# MODEL ARGS:
+# for model server / sampling args, you can put them under MODEL to be shared, 
+# or under the specific pipeline steps (TITLE / PREMISE) for specific options. unspecified sampling args will inherit from the ancestor.
+# the format is the same as the openai API, since VLLM also provides and openai-style API.
+
+defaults:
+  output_path: output/premise.json
+  logging_level: info # debug, info, warning, error, critical
+  MODEL:
+    engine: TODO # TODO path/to/vllm-supported/hf/model, vllm-supported huggingface model string, or openai model string
+    server_type: vllm # "vllm" or "openai"
+    host: http://localhost # model server if using vllm
+    port: 9741
+    prompt_format: llama2-chat # "none" (pretrained base model), "openai-chat", or "llama2-chat"; add other options in common/llm/prompt.py as needed
+    temperature: 1.2
+    top_p: 0.99
+    frequency_penalty: 0
+    presence_penalty: 0
+    TITLE:
+      max_tokens: 32
+      stop: ["\n"]
+    PREMISE:
+      max_tokens: 128
+      stop: ["\n"]
+

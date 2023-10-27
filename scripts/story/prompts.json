@@ -1,0 +1,24 @@
+{
+    "story": {
+        "passage": {
+            "instruction": "I will give you the high-level premise for a book, along with a summary of what has happened so far. This book is being authored by a well-known novelist, who received glowing reviews from critics, with praise for the interesting dialogue and interactions between characters.\n\nPremise: {premise}\n\nRelevant context: {entity_descriptions}\n\nPrevious story summary: {previous_node_events}\n\nEvents immediately prior to the upcoming passage: {previous_summary}\n\nIn the upcoming passage, {ancestors}{previous_events}{current_event}{future_events}{previous_scene_info} The current setting is {current_scene} The characters or entities who appear are {current_entities}.\n\nBased on all this information, please suggest a draft for the upcoming passage, including specific concrete details.{ending_info}",
+            "response_prefix": "{autoregressive_context}"
+        },
+        "summary": {
+            "instruction": "{raw_context}\n\n\n\nWrite a brief summary of the above passage.",
+            "response_prefix": "Sure, here is a brief summary:\n\nAt first,"
+        },
+        "score": {
+            "coherence": {
+                "instruction": "Story Context: {prefix}\n\n\n\nStory Continuation: {continuation}\n\n\n\nDoes the story continuation make sense given the initial context? Yes or No."
+            },
+            "relevance": {
+                "instruction": "Story Passage: {continuation}\n\n\n\nEvent: {node_event}\n\n\n\nDid this event happen in the story passage? Yes or No."
+            },
+            "commentary": {
+                "instruction": "Text:\n\n------------\n\n{last_paragraph}\n\n------------\n\n\n\nIs this text part of an actual story or story dialogue, or is it part of a commentary, description or question about a story?\n\n(A) Actual story or story dialogue\n\n(B) Commentary, description or question about a story",
+                "response_prefix": "("
+            }
+        }
+    }
+}

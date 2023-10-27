@@ -1,0 +1,51 @@
+# MODEL ARGS:
+# for model server / sampling args, you can put them under MODEL to be shared, 
+# or under the specific pipeline steps (SETTING/ENTITY/etc) for specific options. unspecified sampling args will inherit from the ancestor.
+# the format is the same as the openai API, since VLLM also provides and openai-style API.
+
+defaults:
+  premise_path: output/premise.json
+  output_path: output/plan.json
+  logging_level: info # debug, info, warning, error, critical
+  MODEL:
+    engine: TODO # TODO path/to/vllm-supported/hf/model, vllm-supported huggingface model string, or openai model string
+    server_type: vllm # "vllm" or "openai"
+    host: http://localhost # model server if using vllm
+    port: 9741
+    prompt_format: llama2-chat # "none" (pretrained base model), "openai-chat", or "llama2-chat"; add other options in llm.py as needed
+    temperature: 1.0
+    top_p: 0.99
+    frequency_penalty: 0
+    presence_penalty: 0
+    SETTING:
+      max_tokens: 64
+      stop: ["\n"]
+    ENTITY:
+      max_attempts: 5 # if it fails for whatever reason, we'll retry entity generation up to this many times
+      min_entities: 3
+      max_entities: 10
+      NAME:
+        max_tokens: 16
+        stop: ["\n", ",", ":", "("]
+      DESCRIPTION:
+        max_tokens: 64
+    OUTLINE:
+      max_attempts: 5
+      expansion_policy: breadth-first # only one option for now; in the future may support expanding based on e.g. predicted concreteness
+      max_depth: 3 # depth of expansion. the (empty) root of the tree is depth 0 and the top-level 1,2,3 is depth 1.
+      context: ancestors-with-siblings-children # how much context the model sees when generating new outline nodes. options are ancestors, ancestors-with-siblings, ancestors-with-siblings-children, full. you should probably use more context as your model's context window allows.
+      min_children: 2 # min children per expansion
+      preferred_max_children: 4
+      max_children: 5
+      EVENT_DEPTH_0: # slightly different handling at the top level compared to later
+        max_tokens: 128
+      EVENT:
+        frequency_penalty: 1
+        max_tokens: 128
+      SCENE:
+        max_tokens: 64
+        # stop: ['"']
+      ENTITY_DEPTH_0: # slightly different handling at the top level compared to later
+        max_tokens: 128
+      ENTITY:
+        max_tokens: 128

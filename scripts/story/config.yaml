@@ -1,0 +1,64 @@
+# MODEL ARGS:
+# for model server / sampling args, you can put them under MODEL to be shared, 
+# or under the specific pipeline steps (STORY/PASSAGE/etc) for specific options. unspecified sampling args will inherit from the ancestor.
+# the format is the same as the openai API, since VLLM also provides and openai-style API.
+
+defaults:
+  plan_path: output/plan.json
+  output_path: output/story.txt
+  output_pkl: output/story.pkl
+  intermediate_prefix: output/story_partial # prefixes for saving partial stories as we generate
+  delete_old_intermediates: true
+  logging_level: info # debug, info, warning, error, critical
+  MODEL:
+    engine: TODO # TODO path/to/vllm-supported/hf/model, vllm-supported huggingface model string, or openai model string
+    server_type: vllm # "vllm" or "openai"
+    host: http://localhost # model server if using vllm
+    port: 9741
+    prompt_format: llama2-chat # "none" (pretrained base model), "openai-chat", or "llama2-chat"; add other options in llm.py as needed
+    # for the remaining args below, you can put these args here to be shared, or put specific ones under "title" and "premise" if you want different args
+    temperature: 1
+    top_p: 0.99
+    frequency_penalty: 1
+    presence_penalty: 0
+    STORY:
+      rendering_policy: leaves # which outline nodes to render. "leaves" or "all"
+      min_passages_per_node: 2
+      max_passages_per_node: 8
+      passage_beam_width: 1 # number of candidates in the beam within the rendering for each outline node; occasional failure cases/crashes if you reduce to 1, but it's fine if you're ok with restarting from intermediate
+      outline_node_beam_width: 1 # number of candidates at the higher outline node level; occasional failure cases/crashes if you reduce to 1, but it's fine if you're ok with restarting from intermediate
+      ancestor_nodes_in_premise: true # whether to include ancestor node events in the premise as context
+      previous_node_entity_descriptions: false # whether to include entity descriptions from the previous node in the context
+      collapse_previous_events: true # whether to collapse previous events into their ancestors after moving on in passage generation. turn this on if your context is getting too long.
+      include_previous_events: 0 # how many previous nodes' events to include in the description of upcoming events
+      include_next_events: 0 # how many future nodes' events to include in the description of upcoming events
+      previous_summary_context: previous-node # what context to include in the low-level summary of immediately preceding text. only 1 option for now
+      autoregressive_context: current-node # what context to include for the raw text immediately before the current passage; will still include at least 1 passage always even when current passage is empty. only 1 option for now
+      ending_policy: append-node # how to end the story. options: none, append-passage, append-node
+      ending_stop: "\n" # if provided, after ending the story we will truncate from the right until seeing this sequence
+      include_prefix_space: true # add a space at the beginning of passages. recommended for openai chat models, and llama models because the tokenizer likes to strip spaces at the beginning for no reason and it's annoying to deal with. you'll get occasional weird spacing either with or without. could be fixed with a spellchecker.
+      PASSAGE:
+        max_tokens: 64
+        n: 8 # number of continuations to rerank over
+        stop: ["*"]
+      SUMMARY: # summarizing parts of context when prompting for next passage
+        max_tokens: 128
+        stop: ["\n"]
+      SCORE: 
+        # engine: # path/to/vllm-supported/hf/model, vllm-supported huggingface model string, or openai model string
+        # server_type: vllm # "vllm" or "openai"
+        # host: http://localhost # model server if using vllm
+        # port: 9741
+        # prompt_format: llama2-chat
+        # reranking: relevance to plot, coherence with previous text, whether it has extra commentary at the end, length of continuation (if it stops early, we don't want it, because it indicates a shift away from story style for chat models)
+        scorers: ['relevance', 'coherence', 'commentary', 'length']
+        RELEVANCE:
+          max_tokens: 5
+          logprobs: 5
+        COHERENCE:
+          max_tokens: 5
+          logprobs: 5
+          max_prefix_passages: 10 # how many previous passages to include as context when asking for coherence with previous passages
+        COMMENTARY:
+          max_tokens: 5
+          logprobs: 5

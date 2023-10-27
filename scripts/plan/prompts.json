@@ -1,0 +1,40 @@
+{
+    "setting": {
+        "instruction": "Title: {title}\n\nPremise: {premise}\n\nPropose a setting for this story, in no more than 20 words.",
+        "response_prefix": "Sure, here is a possible setting for this story:\n\nThe story is set in",
+        "output_prefix": "The story is set in"
+    },
+    "entity": { 
+        "name": {
+            "instruction": "Title: {title}\n\nPremise: {premise}\n\nSetting: {setting}\n\nList some major characters or entities that might appear in this story, in the format:\n\nFull name: [NAME]\n\nDescription: [DESCRIPTION]",
+            "response_prefix": "Sure.\n\n{previous_entities}\n\n{current_number}. Full name:"
+        },
+        "description": {
+            "instruction": "Title: {title}\n\nPremise: {premise}\n\nSetting: {setting}\n\nList some major characters or entities that might appear in this story, in the format:\n\n1. [ENTITY DESCRIPTION 1]\n\n2. [ENTITY DESCRIPTION 2]\n\n3. etc.",
+            "response_prefix": "Sure. I will also provide a very brief, one-sentence description for each one. \n\n{previous_entities}\n\n{current_number}. {name}: {name} is",
+            "output_prefix": "{name} is"
+        }
+    },
+    "outline": {
+        "event_depth_0": {
+            "instruction": "Title: {title}\n\nPremise: {premise}\n\nSetting: {setting}\n\nCharacters and Entities:\n\n{entities}\n\nWrite a very brief, high-level outline for this story, in the format:\n\n1. [PLOT EVENT 1]\n\n2. [PLOT EVENT 2]\n\n3. etc.\n\nThere should be up to {preferred_max_children} events, showing the beginning, middle and end of the story. Each high-level plot event should be no more than 20 words.",
+            "response_prefix": "Sure, here is a very brief, high-level outline with a clear beginning, middle, and end in {preferred_max_children} parts:\n\n{context_prefix}\n\n{formatted_current_number}"
+        },
+        "event": {
+            "instruction": "Title: {title}\n\nPremise: {premise}\n\nSetting: {setting}\n\nCharacters and Entities:\n\n{entities}\n\n\n\nOutline:\n\n{context_prefix}\n\n{formatted_current_number} [TODO INSERT]\n\n{context_suffix}\n\n\n\nUsing one or two numbers (and keeping in mind each subsection has up to {preferred_max_children} sub-events), please suggest more details of events that might occur in the location marked [TODO INSERT] {predecessor_info} {successor_info}",
+            "response_prefix": "Sure, here are 10-20 word event(s) that occur in the specified time frame:\n\n{stripped_current_number}"
+        },
+        "scene": {
+            "instruction": "Title: {title}\n\nPremise: {premise}\n\nSetting: {setting}\n\nCharacters and Entities:\n\n{entities}\n\n\n\nOutline:\n\n{context_prefix}\n\n{formatted_current_number} {current_event} Scene: [TODO INSERT SCENE]\n\n{context_suffix}\n\n\n\nPlease suggest a setting where \"{stripped_current_number} {current_event}\" might take place, using no more than 10 words.",
+            "response_prefix": "Sure. In 10 words, this event could take place in the following setting: \""
+        },
+        "entity_depth_0": {
+            "instruction": "Title: {title}\n\nPremise: {premise}\n\nSetting: {setting}\n\nCharacters and Entities:\n\n{entities}\n\n\n\nOutline:\n\n{context_prefix}\n\n{formatted_current_number} {current_event} Scene: {current_scene} Characters: [TODO INSERT CHARACTERS]\n\n{context_suffix}\n\n\n\nPlease list 1-3 characters or entities (using their names from the Characters and Entities list above) that appear in \"{stripped_current_number} {current_event}\" in a comma-separated list. End the list early if there is only one character mentioned.",
+            "response_prefix": "Sure. The full names of all characters or entities who appear in this event are, in order,{detected_entities}"
+        },
+        "entity": {
+            "instruction": "Title: {title}\n\nPremise: {premise}\n\nSetting: {setting}\n\nCharacters and Entities:\n\n{entities}\n\n\n\nOutline:\n\n{context_prefix}\n\n{formatted_current_number} {current_event} Scene: {current_scene} Characters: [TODO INSERT CHARACTERS]\n\n{context_suffix}\n\n\n\nPlease list 1-3 characters or entities (using their names from the Characters and Entities list above) that appear in \"{stripped_current_number} {current_event}\"",
+            "response_prefix": "Sure.\n\n{stripped_current_number} {current_event} Scene: {current_scene} Characters:{detected_entities}"
+        }
+    }
+}

@@ -1,0 +1,7 @@
+langchain==0.0.317
+nltk==3.8.1
+openai==0.28.0
+roman==4.1
+scipy==1.11.2
+transformers==4.33.2
+vllm==0.1.7
