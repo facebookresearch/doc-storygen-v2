@@ -1,4 +1,4 @@
-langchain==0.0.317
+langchain==0.0.327
 nltk==3.8.1
 openai==0.28.0
 roman==4.1
