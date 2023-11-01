@@ -3,7 +3,7 @@
 import json
 import logging
 
-from langchain import PromptTemplate
+from langchain.prompts import PromptTemplate
 
 
 warned_prompt_format = {'openai_response_prefix': False}
