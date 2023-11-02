@@ -58,7 +58,7 @@ We performed human evaluation on 7000 generated story plot pairs, which can be f
     Q2: Please explain your answer to Q1.
     Q3: In your opinion, which one of the plots above could generate a more interesting book or movie (when a full story is written based on it)?
     Q4: Which story plot created more suspense and surprise?
-    Q5: Which story\u2019s characters or events do you identify with or care for more?
+    Q5: Which story's characters or events do you identify with or care for more?
     Q6: Which story has a better ending?
 ```
 
