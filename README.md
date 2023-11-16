@@ -51,7 +51,7 @@ Note that `start_servers.py` relies on `close_servers.py` to delete the `server_
 
 ## Human Evaluation
 
-We performed human evaluation on 7000 generated story plot pairs, which can be found [here](https://dl.fbaipublicfiles.com/doc-storygen/story_annotation_v2.json). Each annotator was asked to compare two plots (Plot A and Plot B) generated from the same premise and to answer the following questions:
+We performed human evaluation on 7000 generated story plot pairs, which can be found [here](https://dl.fbaipublicfiles.com/doc-storygen/story_annotation_v2.json). We take [oasst-3b](https://arxiv.org/abs/2304.07327) as the basic LLM and generate two different plots for the same premise. Each annotator was asked to compare two plots (Plot A and Plot B)  and to answer the following questions:
 
 ```
     Q1: Which story plot is more interesting to you overall?
