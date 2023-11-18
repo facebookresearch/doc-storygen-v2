@@ -49,6 +49,36 @@ python close_servers.py
 
 Note that `start_servers.py` relies on `close_servers.py` to delete the `server_configs.txt` file; just delete it manually before starting servers next time if you close servers in a different way. Alternatively, if memory allows, you can just keep all the servers alive simultaneously before closing them at the end, or reuse the servers between steps if you're using the same model by setting them to use the same `port` in `config.yaml` (it's fine if the sampling params differ).
 
+## Human Evaluation
+
+We performed human evaluation on 7000 generated story plot pairs, which can be found [here](https://dl.fbaipublicfiles.com/doc-storygen/story_annotation_v2.json). We take [oasst-3b](https://arxiv.org/abs/2304.07327) as the basic LLM and generate two different plots for the same premise. Each annotator was asked to compare two plots (Plot A and Plot B)  and to answer the following questions:
+
+```
+    Q1: Which story plot is more interesting to you overall?
+    Q2: Please explain your answer to Q1.
+    Q3: In your opinion, which one of the plots above could generate a more interesting book or movie (when a full story is written based on it)?
+    Q4: Which story plot created more suspense and surprise?
+    Q5: Which story's characters or events do you identify with or care for more?
+    Q6: Which story has a better ending?
+```
+
+
+For Q2, they were required to provide a short text description for Q1. For other questions, they chose from four given options: *Plot A, Plot B, Both are good, Both are bad*. The description of the latter two options differ in different questions. We list some statistics below:
+
+* 6931 uniq Premise, 60.6 average words 
+* 403 uniq Annotator, 8 median annotations    
+* 7000 uniq plan pair, 619.5 average words 
+* 6993 uniq response to Q2, 69.0 average words 
+
+And here are the results of our human evaluation.
+|                                                                                    | Plot A | Plot B | Both are good | Both are bad |
+| -----------------------------------------------------------------------------------| ------ | ------ | ------------- | ------------ |
+| Q1. Which story plot is more interesting to you overall?                           | 31.90% | 41.54% | 11.84%        | 14.71%       |
+| Q3. In your opinion, which one of the plots above could generate a more interesting book or movie (when a full story is written based on it)? | 30.81% | 40.69% | 14.37%        | 14.13%       |
+| Q4. Which story plot created more suspense and surprise?                           | 28.57% | 38.34% | 13.04%        | 20.04%       |
+| Q5. Which story’s characters or events do you identify with or care for more?      | 30.31% | 38.60% | 14.09%        | 17.00%       |
+| Q6. Which story has a better ending?                                               | 30.20% | 36.76% | 9.04%         | 24.00%       |
+
 ## Some Known Issues / Potential Improvements
 
 - When start multiple model servers for different models, we should allocate them to different GPUs or load on multi-GPU as needed. 
@@ -57,6 +87,7 @@ Note that `start_servers.py` relies on `close_servers.py` to delete the `server_
 - We should implement vaguest-first expansion (using a model to predict which node is the most vague) rather than breadth-first expansion when creating the outline during plan generation.
 - We should test `text-davinci-003` for generating passages during the story generation stage since it's a completion model; the OpenAI Chat API is very limiting.
 - Some model types and some more obscure options in the code aren't well-tested. Please let us know if you run into any issues.
+
 
 ## License
 
