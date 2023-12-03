@@ -1,5 +1,5 @@
 # MODEL ARGS:
-# for model server / sampling args, you can put them under MODEL to be shared, 
+# for model server / sampling args, you can put them under MODEL to be shared,
 # or under the specific pipeline steps (TITLE / PREMISE) for specific options. unspecified sampling args will inherit from the ancestor.
 # the format is the same as the openai API, since VLLM also provides and openai-style API.
 
@@ -8,6 +8,7 @@ defaults:
   logging_level: info # debug, info, warning, error, critical
   MODEL:
     engine: TODO # TODO path/to/vllm-supported/hf/model, vllm-supported huggingface model string, or openai model string
+    tensor_parallel_size: 1 # TODO number of gpus to use
     server_type: vllm # "vllm" or "openai"
     host: http://localhost # model server if using vllm
     port: 9741
@@ -22,4 +23,3 @@ defaults:
     PREMISE:
       max_tokens: 128
       stop: ["\n"]
-
