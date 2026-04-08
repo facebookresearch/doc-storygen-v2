@@ -3,7 +3,7 @@ nltk==3.8.1
 openai==0.28.0
 roman==4.1
 scipy==1.11.2
-transformers==4.33.2
+transformers==5.0.0rc3
 vllm==0.1.7
 pyarrow==14.0.1
 pandas==2.1.3
