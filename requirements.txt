@@ -1,5 +1,5 @@
 langchain==0.0.329
-nltk==3.8.1
+nltk==3.9.4
 openai==0.28.0
 roman==4.1
 scipy==1.11.2
